@@ -57,7 +57,7 @@ body {
 }
 
 .square {
-  background: #fff;
+  background: #fb78;
   border: 1px solid #999;
   float: left;
   font-size: 24px;
@@ -79,11 +79,15 @@ body {
 
 .status {
   margin-bottom: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: larger;
 }
 .game {
   display: flex;
   flex-direction: row;
+
 }
+
 
 .game-info {
   margin-left: 20px;

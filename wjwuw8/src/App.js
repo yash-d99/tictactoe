@@ -25,10 +25,14 @@ function Board( {xIsNext, squares, onPlay}) {
   }
   const winner = calculateWinner(squares);
   let status;
-  if (winner) {
+  if (winner === 'Tie') {
+    status = "The game is a tie";
+  }
+  else if (winner) {
     status = "Winner: " + winner;
   }
-  else {
+  
+  else if (winner === null) {
     status = "Next player: " + (xIsNext ? "X": "O")
   }
   return (
@@ -57,14 +61,23 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
   const xIsNext = currentMove %2 ===0;
+  const [isBold, setIsBold] = useState(false);
+  const bold = {
+    fontWeight: 'bold'
+  };
+  const notBold = {
+    fontWeight: 'normal'
+  };
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove +1), nextSquares]
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length-1);
   }
   function jumpTo(nextMove){
+    setIsBold(isBold => !isBold);
     setCurrentMove(nextMove);
-  
+    console.log('btn click');
+ 
   }
   const moves = history.map((squares,move) => {
     let description;
@@ -76,7 +89,10 @@ export default function Game() {
     }
     return (
       <li key = {move}>
-        <button onClick = {() => jumpTo(move)}>{description}</button>
+        {/* <span style = {{fontWeight: isBold ? 'bold' : 'normal'}}>  */}
+        {/* <button onClick = {() => jumpTo(move)}>{description}</button> */}
+        <button style={isBold ? bold : notBold} onClick = {() => jumpTo(move)}>{description}</button>
+        {/* </span> */}
       </li>
     );
   });
@@ -107,6 +123,9 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
+  }
+  if(squares[0] && squares[1] && squares[2] && squares[3] && squares[4] && squares[5] && squares[6] && squares[7] && squares[8]) {
+    return 'Tie';
   }
   return null;
 }
